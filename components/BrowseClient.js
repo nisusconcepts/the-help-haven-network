@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { matchesZip, ZIP_SEARCH_RADIUS_MILES } from "@/lib/zip";
+import { CATEGORY_BY_SLUG, ALL_CATEGORY } from "@/lib/categories";
 import CategoryRail from "@/components/CategoryRail";
 import ResourceCard from "@/components/ResourceCard";
 
@@ -42,6 +43,8 @@ function BrowseResults({ initialCategory, initialResources }) {
   const activeCat = searchParams.get("category") || initialCategory || "all";
   const zip = searchParams.get("zip") || "";
   const detoxOnly = searchParams.get("detox") === "1";
+
+  const activeCategoryInfo = CATEGORY_BY_SLUG[activeCat] || ALL_CATEGORY;
 
   const [resources, setResources] = useState(initialResources);
   const [loading, setLoading] = useState(initialResources.length === 0);
@@ -143,6 +146,21 @@ function BrowseResults({ initialCategory, initialResources }) {
 
   return (
     <div>
+      <div
+        className="hero-panel"
+        style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}
+      >
+        <span style={{ fontSize: 32, lineHeight: 1 }} aria-hidden="true">
+          {activeCategoryInfo.icon}
+        </span>
+        <div>
+          <h2 style={{ fontSize: 20, marginBottom: 4 }}>{activeCategoryInfo.label}</h2>
+          <p style={{ margin: 0, color: "var(--ink-soft)", fontSize: 13.5 }}>
+            Search by name or need below, or filter by ZIP — the map is further down, under the listings.
+          </p>
+        </div>
+      </div>
+
       <div style={{ display: "flex", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
         <input
           type="search"
