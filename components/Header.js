@@ -23,8 +23,8 @@ export default function Header() {
       <div
         className="shell"
         style={{
-          paddingTop: 28,
-          paddingBottom: 22,
+          paddingTop: 32,
+          paddingBottom: 26,
           display: "flex",
           flexWrap: "wrap",
           gap: 20,
@@ -33,24 +33,22 @@ export default function Header() {
         }}
       >
         <div>
-          <p
-            style={{
-              fontFamily: '"IBM Plex Mono"',
-              fontSize: 11,
-              letterSpacing: "0.11em",
-              textTransform: "uppercase",
-              color: "var(--teal-dark)",
-              margin: "0 0 6px",
-            }}
-          >
-            Community resource directory
-          </p>
-          <h1 style={{ fontSize: 32, fontWeight: 600 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 600, marginBottom: 8 }}>
             <Link href="/" style={{ color: "var(--ink)", textDecoration: "none" }}>
               The Help Haven Network
             </Link>
           </h1>
-          <p style={{ margin: "6px 0 0", color: "var(--ink-soft)", maxWidth: "46ch", fontSize: 14 }}>
+          <p
+            style={{
+              fontSize: 16,
+              fontWeight: 600,
+              color: "var(--teal-dark)",
+              margin: "0 0 8px",
+            }}
+          >
+            Community resource directory
+          </p>
+          <p style={{ margin: "0 0 10px", color: "var(--ink-soft)", maxWidth: "46ch", fontSize: 14 }}>
             A directory of mental health, recovery, shelter, and support resources — for people who
             need them, and the organizations that provide them. Starting in North Texas, growing nationwide.
           </p>
