@@ -24,7 +24,7 @@ Total cost to get this live: **$0**.
 ### 1. Create a Supabase project
 
 1. Go to [supabase.com](https://supabase.com) and create a free account, then a new project.
-2. In the project, open **SQL Editor > New query**, paste in the contents of `supabase/schema.sql`,
+2. In the project, open **SQL Editor > New query**, paste in the contents of `schema.sql`,
    and run it. This creates the `resources` and `submissions` tables and locks them down with Row
    Level Security (public can read resources and submit new ones; only a signed-in admin can publish
    or review).
@@ -87,7 +87,7 @@ components/                Shared UI (map, cards, category rail, header)
 lib/                       Supabase client, category list, geocoding helper
 data/dfw-resources.json    The 20 real seed listings
 scripts/seed.mjs           One-time/repeatable data loader
-supabase/schema.sql        Database schema + Row Level Security policies
+schema.sql                 Database schema + Row Level Security policies
 ```
 
 ## How moderation works
