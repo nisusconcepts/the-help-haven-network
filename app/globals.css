@@ -213,3 +213,17 @@ textarea {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px -8px rgba(24, 36, 34, 0.4);
 }
+
+/* Shared colorful intro panel — reused on the homepage, the browse pages
+   (above the search box), and the About page, so the same color language
+   shows up everywhere instead of just on the homepage. Built from the
+   existing tint variables so it stays correct in dark mode automatically. */
+.hero-panel {
+  border-radius: 20px;
+  padding: 28px 28px 32px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: radial-gradient(circle at 12% 15%, var(--teal-tint), transparent 55%),
+    radial-gradient(circle at 88% 12%, var(--amber-tint), transparent 50%),
+    radial-gradient(circle at 50% 100%, var(--sage-tint), transparent 55%), var(--panel);
+}
