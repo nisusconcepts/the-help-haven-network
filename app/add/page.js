@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { CATEGORIES } from "@/lib/categories";
 
 const EMPTY_FORM = {
   submitter_type: "individual",
   name: "",
-  category: CATEGORIES[1]?.slug || CATEGORIES[0].slug,
+  category: CATEGORIES[0].slug,
   description: "",
   phone: "",
   area: "",
@@ -18,22 +18,10 @@ const EMPTY_FORM = {
   note: "",
 };
 
-// Minimum seconds a real person needs to at least glance at the form before
-// submitting. Bots that fill and submit a form programmatically usually do
-// it in well under a second — this alone weeds out a lot of them with zero
-// cost and no CAPTCHA for real visitors to deal with.
-const MIN_SECONDS_BEFORE_SUBMIT = 3;
-
 export default function AddResourcePage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState(null); // { type: 'ok' | 'err', message }
   const [submitting, setSubmitting] = useState(false);
-  // Honeypot: a field real visitors never see or fill in, styled off-screen
-  // instead of display:none (some bots skip display:none fields). Anything
-  // that fills it in is a bot — silently pretend success rather than error,
-  // so the bot doesn't learn to leave it blank next time.
-  const [company, setCompany] = useState("");
-  const loadedAtRef = useRef(Date.now());
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -41,17 +29,6 @@ export default function AddResourcePage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    const tooFast = Date.now() - loadedAtRef.current < MIN_SECONDS_BEFORE_SUBMIT * 1000;
-    if (company.trim() || tooFast) {
-      // Looks like a bot. Show the normal success state and reset the form
-      // without ever writing to the database.
-      setStatus({ type: "ok", message: "Thanks — this will be reviewed before it appears in the directory." });
-      setForm(EMPTY_FORM);
-      setCompany("");
-      return;
-    }
-
     setSubmitting(true);
     setStatus(null);
 
@@ -70,30 +47,18 @@ export default function AddResourcePage() {
   }
 
   return (
-    <div className="panel-block" style={{ maxWidth: 640 }}>
-      <h2 style={{ fontSize: 22, marginBottom: 6 }}>Add a resource</h2>
-      <p style={{ color: "var(--ink-soft)", margin: "0 0 20px", fontSize: 13.5 }}>
-        Know a service that should be listed — or run one yourself? Organizations are welcome to add
-        their own listing directly. Every submission is reviewed before it goes live, which keeps the
-        directory accurate and safe.
-      </p>
+    <div style={{ maxWidth: 640 }}>
+      <div className="hero-panel" style={{ marginBottom: 20 }}>
+        <h2 style={{ fontSize: 22, marginBottom: 6 }}>Add a resource</h2>
+        <p style={{ color: "var(--ink-soft)", margin: 0, fontSize: 13.5 }}>
+          Know a service that should be listed — or run one yourself? Organizations are welcome to add
+          their own listing directly. Every submission is reviewed before it goes live, which keeps the
+          directory accurate and safe.
+        </p>
+      </div>
 
+      <div className="panel-block">
       <form onSubmit={handleSubmit}>
-        <div
-          style={{ position: "absolute", left: "-9999px", top: "-9999px" }}
-          aria-hidden="true"
-        >
-          <label htmlFor="s-company">Company</label>
-          <input
-            id="s-company"
-            name="company"
-            tabIndex={-1}
-            autoComplete="off"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-          />
-        </div>
-
         <div className="field">
           <label>Who&apos;s submitting this?</label>
           <div style={{ display: "flex", gap: 16, fontSize: 14 }}>
@@ -126,7 +91,7 @@ export default function AddResourcePage() {
         <div className="field">
           <label htmlFor="s-category">Category</label>
           <select id="s-category" required value={form.category} onChange={(e) => update("category", e.target.value)}>
-            {CATEGORIES.filter((c) => c.slug !== "start-here").map((c) => (
+            {CATEGORIES.map((c) => (
               <option key={c.slug} value={c.slug}>
                 {c.label}
               </option>
@@ -197,6 +162,7 @@ export default function AddResourcePage() {
 
         {status && <div className={`form-msg ${status.type === "ok" ? "ok" : "err"}`}>{status.message}</div>}
       </form>
+      </div>
     </div>
   );
 }
