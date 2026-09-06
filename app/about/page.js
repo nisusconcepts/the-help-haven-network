@@ -9,37 +9,16 @@ export default function AboutPage() {
           The Help Haven Network is a directory of mental health, substance abuse recovery, shelter, domestic
           violence, LGBTQ+, military and first responder, legal aid, financial assistance, human
           trafficking, food assistance, and clothing/essentials resources. It started in North Texas,
-          with the goal of growing city by city — and eventually nationwide.
+          with the goal of growing city by city — and eventually nationwide. New here and not sure
+          where to start? Call <a className="mono" href="tel:211">211</a> (211 Texas) — it connects
+          you to local health and human services of every kind, and is the best first call if you
+          don&apos;t know where else to look.
         </p>
         <p style={{ color: "var(--ink-soft)", lineHeight: 1.6 }}>
           Anyone can search the directory for free. Anyone can also submit a resource — including
           organizations listing themselves directly — and every submission is reviewed before it goes
           live, to keep listings accurate and to keep bad actors out.
         </p>
-
-        <div
-          className="panel-block"
-          style={{
-            background: "var(--panel)",
-            padding: "14px 18px",
-            margin: "18px 0",
-            display: "flex",
-            alignItems: "flex-start",
-            gap: 12,
-          }}
-        >
-          <span style={{ fontSize: 22, lineHeight: 1 }} aria-hidden="true">
-            🧭
-          </span>
-          <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6 }}>
-            <strong>New here and not sure where to start?</strong> Call{" "}
-            <a className="mono" href="tel:211">
-              211
-            </a>{" "}
-            (211 Texas) — it connects you to local health and human services of every kind, and is the
-            best first call if you don&apos;t know where else to look.
-          </p>
-        </div>
 
         <p style={{ color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 0 }}>
           The Help Haven Network is built for, and by, people who have needed resources like these and had trouble
