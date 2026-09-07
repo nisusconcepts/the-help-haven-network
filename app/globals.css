@@ -380,3 +380,64 @@ textarea {
   background: linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 26%);
   pointer-events: none;
 }
+
+/* Browse-page results grid — three cards per row on desktop (was an
+   auto-fill grid that landed on two per row at typical widths), stepping
+   down at narrower widths so cards never get too cramped. */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 860px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Resource card background: a lower alpha than the standard --panel-glass
+   (0.6 vs 0.88) so the cube-pattern backdrop reads through the card grid
+   much more clearly, per Josh's request. Checked against WCAG 2.1 AA at
+   the gradient's lightest point plus the pattern stroke drawn over it (the
+   worst case for contrast): ink-soft body text still clears 5.36:1, well
+   above the 4.5:1 minimum. Scoped to .resource-card specifically, not
+   changed on --panel-glass itself, since that variable is also used by
+   .hero-panel and .panel-block on the admin/about/add/detail pages, which
+   weren't part of this request. */
+.resource-card {
+  background: rgba(9, 16, 34, 0.6) !important;
+}
+
+/* Detox filter popover — hover/focus-revealed on the "Substance Abuse &
+   Recovery" rail item only (see CategoryRail.js), instead of a standalone
+   checkbox shown above the results for every category. Opacity + pointer-
+   events (not display/visibility) keep the checkbox in the normal tab
+   order, so a keyboard user can still reach and use it — :focus-within
+   reveals the popover the same way :hover does for a mouse user. */
+.rail-detox-popover {
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  background: var(--panel-glass);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 12px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+.rail-detox-wrap:hover .rail-detox-popover,
+.rail-detox-wrap:focus-within .rail-detox-popover {
+  opacity: 1;
+  pointer-events: auto;
+}
