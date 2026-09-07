@@ -8,6 +8,7 @@ import { matchesZip, ZIP_SEARCH_RADIUS_MILES } from "@/lib/zip";
 import { CATEGORY_BY_SLUG, ALL_CATEGORY } from "@/lib/categories";
 import CategoryRail from "@/components/CategoryRail";
 import ResourceCard from "@/components/ResourceCard";
+import CategoryIcon from "@/lib/categoryIcons";
 
 // ssr:false is only legal inside a Client Component — this file is one
 // ("use client" above) precisely so the map can be loaded this way.
@@ -150,8 +151,8 @@ function BrowseResults({ initialCategory, initialResources }) {
         className="hero-panel"
         style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}
       >
-        <span style={{ fontSize: 32, lineHeight: 1 }} aria-hidden="true">
-          {activeCategoryInfo.icon}
+        <span style={{ lineHeight: 1, color: "var(--teal)" }} aria-hidden="true">
+          <CategoryIcon slug={activeCategoryInfo.slug} size={34} />
         </span>
         <div>
           <h2 style={{ fontSize: 20, marginBottom: 4 }}>{activeCategoryInfo.label}</h2>
