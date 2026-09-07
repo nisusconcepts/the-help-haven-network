@@ -21,63 +21,49 @@
     url(https://cdn.jsdelivr.net/fontsource/fonts/opendyslexic@5.3.0/latin-700-normal.woff) format("woff");
 }
 
-/* Color theme (2026-09-07, v2): a glossy metallic cobalt-blue palette,
-   replacing the flatter steel/gunmetal scheme from earlier the same day —
-   Josh asked for something more "2026, modern, futuristic" than steel gray.
-   Variable *names* (--teal*, --amber*) are kept as-is on purpose — dozens
-   of components already reference them — only the values changed, plus one
-   new variable (--glow, for the colored glow shadows used on hover/buttons
-   to sell the "glossy" look). The base neutrals (--paper/--panel/--ink/
-   --ink-soft/--line) also shifted from a green-gray cast to a cool
-   navy-blue cast so the whole site reads as one cohesive cobalt system, not
-   just the accent color changing. --rust/--rust-tint (urgent) and
-   --sage/--sage-tint (free/verified) are left alone again: those are
-   functional status colors (red = urgent, green = free/confirmed), not
-   decorative branding, and changing them would cost real usability for a
-   purely visual gain. All new values were re-checked against WCAG 2.1 AA
-   (4.5:1 for text, 3:1 for borders/UI) before being used as text/border
-   colors anywhere in this file — see the contrast notes in
-   lib/categories.js for the category-color numbers specifically. */
+/* Color theme (2026-09-07, v3): the site is now dark by default everywhere —
+   not just under prefers-color-scheme: dark — using a glossy 3D metallic
+   cobalt look with a seamless isometric-cube backdrop pattern, per Josh's
+   approved mockup (several rounds of iteration on the backdrop pattern
+   specifically; the isometric "tumbling blocks" pattern with no accent
+   variation — "Option 11" in that exploration — is the one that shipped).
+   This replaces the old light-by-default / dark-via-media-query setup: the
+   values that used to live only under @media (prefers-color-scheme: dark)
+   are now the one and only :root theme, so there is no more light mode to
+   fall back to. Variable *names* (--teal*, --amber*, --paper, --panel,
+   etc.) are unchanged on purpose — dozens of components already reference
+   them — only the values moved. --rust/--rust-tint (urgent) and
+   --sage/--sage-tint (free/verified) keep the same dark-mode values they
+   already had: functional status colors, not decorative branding, so they
+   were left alone rather than re-themed for looks. New this pass:
+   --panel-glass (a translucent, blurred version of --panel used for the
+   hero panel and cards, so the cube pattern behind them shows through
+   slightly) and the tile gradient stop used on the homepage's 3D category
+   tiles was darkened from an earlier draft (#4c72e8 -> #3d5fd2) because the
+   lighter shade only cleared 3.8:1 contrast against the tile's light label
+   text — below the 4.5:1 AA minimum for text that size. Every new pairing
+   here was checked against WCAG 2.1 AA (4.5:1 text, 3:1 borders/UI) before
+   use — see the contrast notes in lib/categories.js for the category-badge
+   numbers specifically, which are unchanged from the previous pass. */
 :root {
-  --paper: #eef1f7;
-  --panel: #ffffff;
-  --ink: #10182b;
-  --ink-soft: #4b586b;
-  --line: rgba(16, 24, 43, 0.13);
-  --teal: #1e46c4;
-  --teal-dark: #16337f;
-  --teal-tint: #dde6fb;
-  --amber: #0d1f57;
-  --amber-tint: #d7ddf2;
-  --rust: #a8443a;
-  --rust-tint: #f5e0dd;
-  --sage: #3f7057;
-  --sage-tint: #e1ede4;
-  --shine-tint: #eef3ff;
-  --glow: rgba(30, 70, 196, 0.35);
-  --shadow: 0 1px 2px rgba(16, 24, 43, 0.08), 0 8px 24px -16px rgba(16, 24, 43, 0.28);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0a1226;
-    --panel: #101d3a;
-    --ink: #eef1fb;
-    --ink-soft: #a9b8d6;
-    --line: rgba(255, 255, 255, 0.13);
-    --teal: #8fb0ff;
-    --teal-dark: #b9cbff;
-    --teal-tint: rgba(143, 176, 255, 0.15);
-    --amber: #5f7ee0;
-    --amber-tint: rgba(95, 126, 224, 0.16);
-    --rust: #dd8b80;
-    --rust-tint: rgba(221, 139, 128, 0.16);
-    --sage: #84c4a1;
-    --sage-tint: rgba(132, 196, 161, 0.16);
-    --shine-tint: rgba(180, 200, 255, 0.14);
-    --glow: rgba(143, 176, 255, 0.35);
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -16px rgba(0, 0, 0, 0.5);
-  }
+  --paper: #0a1226;
+  --panel: #101d3a;
+  --panel-glass: rgba(9, 16, 34, 0.88);
+  --ink: #eef1fb;
+  --ink-soft: #a9b8d6;
+  --line: rgba(255, 255, 255, 0.13);
+  --teal: #8fb0ff;
+  --teal-dark: #b9cbff;
+  --teal-tint: rgba(143, 176, 255, 0.15);
+  --amber: #5f7ee0;
+  --amber-tint: rgba(95, 126, 224, 0.16);
+  --rust: #dd8b80;
+  --rust-tint: rgba(221, 139, 128, 0.16);
+  --sage: #84c4a1;
+  --sage-tint: rgba(132, 196, 161, 0.16);
+  --shine-tint: rgba(180, 200, 255, 0.14);
+  --glow: rgba(143, 176, 255, 0.35);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -16px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -90,8 +76,24 @@ body {
   margin: 0;
 }
 
+/* Seamless isometric-cube backdrop ("Option 11") — a wireframe "tumbling
+   blocks" tessellation where every cube gets identical treatment (no
+   nested-cube accent anywhere), tiled over the dark cobalt radial gradient.
+   Scrolls with the page (not `background-attachment: fixed`) — fixed
+   backgrounds render incorrectly in some full-page-height capture tools,
+   and the tile/gradient is subtle enough that a scrolling background reads
+   the same as a fixed one in normal use. html gets the gradient/pattern
+   too and min-height:100% on both, so a short page (e.g. a 404) doesn't
+   show default white below a body shorter than the viewport. */
+html {
+  min-height: 100%;
+  background: radial-gradient(circle at 50% -10%, #3557c6 0%, #1c2f6e 55%, #101c46 100%);
+}
 body {
-  background: var(--paper);
+  min-height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='112' height='100' viewBox='0 0 112 100'%3E%3Cpath fill='none' stroke='rgba(190,212,255,0.28)' stroke-width='1.15' d='M28 0L56 16L56 50L28 66L0 50L0 16Z M28 33L28 0M28 33L56 50M28 33L0 50 M28 34L56 50L56 84L28 100L0 84L0 50Z M28 67L56 50M28 67L28 100M28 67L0 50 M84 0L112 16L112 50L84 66L56 50L56 16Z M84 33L84 0M84 33L112 50M84 33L56 50 M84 34L112 50L112 84L84 100L56 84L56 50Z M84 67L112 50M84 67L84 100M84 67L56 50'/%3E%3C/svg%3E")
+      0 0 / 112px 100px,
+    radial-gradient(circle at 50% -10%, #3557c6 0%, #1c2f6e 55%, #101c46 100%);
   color: var(--ink);
   font-family: "OpenDyslexic", "Comic Sans MS", "IBM Plex Sans", system-ui, sans-serif;
   font-size: 15px;
@@ -169,8 +171,15 @@ button {
   background: var(--sage-tint);
 }
 
+/* Glass panel: translucent + blurred instead of solid, so the cube backdrop
+   pattern shows through faintly instead of being fully hidden behind an
+   opaque card. --panel-glass is dark/opaque enough on its own (0.88 alpha)
+   that text contrast doesn't depend on what's behind it — checked against
+   both the lightest and darkest points of the body gradient. */
 .panel-block {
-  background: var(--panel);
+  background: var(--panel-glass);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 26px 28px;
@@ -199,12 +208,13 @@ button {
   gap: 5px;
 }
 
-input[type="text"],
-input[type="tel"],
-input[type="url"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
+/* input:not([type=...]) covers several inputs across the site (the ZIP
+   filter, a few Add-a-Resource fields) that never had an explicit type=
+   attribute — harmless in the old light theme, where the unstyled browser
+   default still happened to look close enough, but a bright white input
+   became jarring once the site went dark, so this is now caught
+   explicitly instead of relying on every input to specify type="text". */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
 textarea,
 select {
   padding: 9px 11px;
@@ -233,9 +243,14 @@ textarea {
 /* Glossy button: a cobalt-to-navy gradient with a thin bright top highlight
    (the classic "glossy button" trick — a light inset line along the top
    edge reads as a specular reflection) plus a soft cobalt glow shadow
-   instead of a flat dark one, so it feels lit rather than just shaded. */
+   instead of a flat dark one, so it feels lit rather than just shaded.
+   Fixed colors here, not var(--teal-dark)/var(--amber): those now hold
+   light pastel values for text/accents on the dark theme, and the near-
+   white button label needs a dark gradient under it regardless of theme
+   (the old variable-based gradient dropped to 1.48:1 contrast at its
+   midpoint once those variables went light — a near-invisible label). */
 .btn-primary {
-  background: linear-gradient(180deg, #3556c9 0%, var(--teal-dark) 55%, var(--amber) 100%);
+  background: linear-gradient(180deg, #3556c9 0%, #16337f 55%, #0d1f57 100%);
   color: #f4f6f7;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 20px -8px var(--glow);
 }
@@ -274,24 +289,68 @@ textarea {
   border: 1px solid var(--line);
 }
 
-/* Homepage category tabs — a little lift on hover so the tiles feel
-   clickable, not flat, plus a diagonal glass-shine overlay (the ::after)
-   and a cobalt glow shadow on hover for the glossy/futuristic look. */
-.category-tab {
+/* Homepage category grid — the tiles are embossed 3D "metal buttons"
+   (layered box-shadow for depth + a slight rotateX tilt), matching the
+   approved cobalt 3D mockup. .tile-grid sets the perspective the tiles tilt
+   within; .tile is shared by every category tile, .tile.all is the one
+   deliberately light/white tile ("All Resources") that mirrors the same
+   convention the map pins and category tabs used before this pass — a
+   single visually distinct entry point into "everything," not color-coded
+   like the rest. The gradient's lightest stop (#3d5fd2, not the brighter
+   #4c72e8 used in the first draft) was chosen so the label text sitting on
+   top still clears 4.5:1 contrast even at the top of the tile. */
+.tile-grid {
+  perspective: 1400px;
+}
+.tile {
   position: relative;
   overflow: hidden;
+  transform: rotateX(6deg);
+  transform-style: preserve-3d;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 30%),
+    linear-gradient(155deg, #3d5fd2 0%, #2a4bb8 45%, #14245c 100%);
+  box-shadow: 0 14px 26px -10px rgba(10, 20, 60, 0.75), 0 2px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -10px 18px -6px rgba(0, 0, 10, 0.55);
 }
-.category-tab::after {
+.tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 32%);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 32%);
   pointer-events: none;
 }
-.category-tab:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 28px -12px var(--glow);
+.tile:hover {
+  transform: rotateX(6deg) translateY(-3px);
+  box-shadow: 0 18px 32px -10px var(--glow), 0 2px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -10px 18px -6px rgba(0, 0, 10, 0.55);
+}
+.tile.all {
+  color: #16224f;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 30%),
+    linear-gradient(155deg, #eef2ff 0%, #c3d2fb 100%);
+  box-shadow: 0 14px 26px -10px rgba(10, 20, 60, 0.55), 0 2px 0 rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -8px 16px -6px rgba(120, 150, 220, 0.5);
+}
+.tile.all:hover {
+  transform: rotateX(6deg) translateY(-3px);
+  box-shadow: 0 18px 32px -10px var(--glow), 0 2px 0 rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -8px 16px -6px rgba(120, 150, 220, 0.5);
+}
+.tile .tile-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+.tile.all .tile-icon {
+  filter: drop-shadow(0 1px 2px rgba(30, 50, 130, 0.35));
+}
+.tile .tile-label {
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.tile.all .tile-label {
+  text-shadow: none;
 }
 
 /* Shared intro panel — reused on the homepage, the browse pages (above
@@ -308,14 +367,16 @@ textarea {
   padding: 28px 28px 32px;
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   background: radial-gradient(circle at 12% 15%, var(--teal-tint), transparent 55%),
     radial-gradient(circle at 88% 12%, var(--amber-tint), transparent 50%),
-    radial-gradient(circle at 50% 100%, var(--shine-tint), transparent 55%), var(--panel);
+    radial-gradient(circle at 50% 100%, var(--shine-tint), transparent 55%), var(--panel-glass);
 }
 .hero-panel::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 26%);
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 26%);
   pointer-events: none;
 }
