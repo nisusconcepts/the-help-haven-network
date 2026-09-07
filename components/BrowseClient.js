@@ -192,21 +192,6 @@ function BrowseResults({ initialCategory, initialResources }) {
         </form>
       </div>
 
-      <label
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 7,
-          fontSize: 13.5,
-          color: "var(--ink-soft)",
-          marginBottom: 16,
-          cursor: "pointer",
-        }}
-      >
-        <input type="checkbox" checked={detoxOnly} onChange={toggleDetoxOnly} />
-        Only show places that offer detox
-      </label>
-
       {zip && (
         <p style={{ fontSize: 13, color: "var(--ink-soft)", marginBottom: 16 }}>
           {zipLocating
@@ -224,8 +209,8 @@ function BrowseResults({ initialCategory, initialResources }) {
       )}
 
       <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 28, alignItems: "start", marginBottom: 28 }}>
-        <CategoryRail activeCategory={activeCat} zip={zip} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+        <CategoryRail activeCategory={activeCat} zip={zip} detoxOnly={detoxOnly} onToggleDetox={toggleDetoxOnly} />
+        <div className="resource-grid">
           {!loading && filtered.length === 0 && (
             <div className="empty">
               {detoxOnly
