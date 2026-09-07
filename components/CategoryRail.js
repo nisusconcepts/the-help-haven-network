@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES, ALL_CATEGORY } from "@/lib/categories";
+import CategoryIcon from "@/lib/categoryIcons";
 
 // Compact category switcher for the /browse results page. Deliberately no
 // counts (a number here would just go stale as listings change) and no
@@ -7,8 +8,8 @@ import { CATEGORIES, ALL_CATEGORY } from "@/lib/categories";
 // normal page navigation that keeps the current ZIP filter intact.
 // Category links point at path-based routes (/browse/[category]) so each
 // category has its own indexable URL and per-page title/description;
-// "All resources" stays at /browse. Each entry shows the same icon used
-// on the homepage grid, for a consistent visual language across pages.
+// "All resources" stays at /browse. Each entry shows the same custom icon
+// used on the homepage grid, for a consistent visual language across pages.
 // The active category and current ZIP come in as props from BrowseClient,
 // since with path-based routing the category isn't always in the query
 // string for this component to read itself.
@@ -20,15 +21,15 @@ export default function CategoryRail({ activeCategory = "all", zip = "" }) {
 
   return (
     <div style={{ position: "sticky", top: 16, display: "flex", flexDirection: "column", gap: 2 }}>
-      <RailLink href={hrefFor("all")} icon={ALL_CATEGORY.icon} label={ALL_CATEGORY.label} active={activeCategory === "all"} />
+      <RailLink href={hrefFor("all")} slug={ALL_CATEGORY.slug} label={ALL_CATEGORY.label} active={activeCategory === "all"} />
       {CATEGORIES.map((c) => (
-        <RailLink key={c.slug} href={hrefFor(c.slug)} icon={c.icon} label={c.label} active={activeCategory === c.slug} />
+        <RailLink key={c.slug} href={hrefFor(c.slug)} slug={c.slug} label={c.label} active={activeCategory === c.slug} />
       ))}
     </div>
   );
 }
 
-function RailLink({ href, icon, label, active }) {
+function RailLink({ href, slug, label, active }) {
   return (
     <Link
       href={href}
@@ -48,9 +49,7 @@ function RailLink({ href, icon, label, active }) {
         boxShadow: active ? "var(--shadow)" : "none",
       }}
     >
-      <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1, flex: "none" }}>
-        {icon}
-      </span>
+      <CategoryIcon slug={slug} size={17} style={{ flex: "none" }} />
       {label}
     </Link>
   );
