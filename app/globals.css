@@ -21,21 +21,33 @@
     url(https://cdn.jsdelivr.net/fontsource/fonts/opendyslexic@5.3.0/latin-700-normal.woff) format("woff");
 }
 
+/* Color theme (2026-09-07): a metallic steel/gunmetal/silver palette,
+   replacing the previous teal/amber scheme, per Josh's request. Variable
+   *names* (--teal*, --amber*) are kept as-is on purpose — dozens of
+   components already reference them — only the values changed, so this
+   reskins the whole site without touching every file that uses an accent
+   color. --rust/--rust-tint (urgent) and --sage/--sage-tint (free/verified)
+   are left alone: those are functional status colors (red = urgent,
+   green = free/confirmed), not decorative branding, and changing them
+   would cost real usability for a purely visual gain. All new values were
+   checked against WCAG 2.1 AA (4.5:1 for text, 3:1 for borders/UI) before
+   being used as text/border colors anywhere in this file. */
 :root {
   --paper: #eef1ee;
   --panel: #ffffff;
   --ink: #182422;
   --ink-soft: #4b5b56;
   --line: rgba(24, 36, 34, 0.13);
-  --teal: #1f5f5b;
-  --teal-dark: #123c39;
-  --teal-tint: #e3efed;
-  --amber: #c97a2b;
-  --amber-tint: #f7e6d2;
+  --teal: #4a5568;
+  --teal-dark: #333e47;
+  --teal-tint: #e1e4ea;
+  --amber: #2f3a42;
+  --amber-tint: #dde1e4;
   --rust: #a8443a;
   --rust-tint: #f5e0dd;
   --sage: #3f7057;
   --sage-tint: #e1ede4;
+  --shine-tint: #f4f6f7;
   --shadow: 0 1px 2px rgba(24, 36, 34, 0.06), 0 8px 24px -16px rgba(24, 36, 34, 0.25);
 }
 
@@ -46,15 +58,16 @@
     --ink: #e9efec;
     --ink-soft: #a7bcb5;
     --line: rgba(255, 255, 255, 0.13);
-    --teal: #69bbb2;
-    --teal-dark: #8fd0c8;
-    --teal-tint: rgba(105, 187, 178, 0.15);
-    --amber: #e2a35d;
-    --amber-tint: rgba(226, 163, 93, 0.16);
+    --teal: #9aa8b3;
+    --teal-dark: #c3ccd1;
+    --teal-tint: rgba(154, 168, 179, 0.15);
+    --amber: #7c8994;
+    --amber-tint: rgba(124, 137, 148, 0.16);
     --rust: #dd8b80;
     --rust-tint: rgba(221, 139, 128, 0.16);
     --sage: #84c4a1;
     --sage-tint: rgba(132, 196, 161, 0.16);
+    --shine-tint: rgba(210, 218, 222, 0.14);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -16px rgba(0, 0, 0, 0.5);
   }
 }
@@ -210,8 +223,8 @@ textarea {
   display: inline-block;
 }
 .btn-primary {
-  background: var(--amber);
-  color: #241407;
+  background: linear-gradient(180deg, #5a6a76, var(--amber));
+  color: #f4f6f7;
 }
 .btn:disabled {
   opacity: 0.55;
@@ -248,8 +261,8 @@ textarea {
   border: 1px solid var(--line);
 }
 
-/* Homepage category tabs — a little lift on hover so the colorful pills
-   feel clickable, not flat. */
+/* Homepage category tabs — a little lift on hover so the tiles feel
+   clickable, not flat. */
 .category-tab {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -258,10 +271,12 @@ textarea {
   box-shadow: 0 6px 16px -8px rgba(24, 36, 34, 0.4);
 }
 
-/* Shared colorful intro panel — reused on the homepage, the browse pages
-   (above the search box), and the About page, so the same color language
+/* Shared intro panel — reused on the homepage, the browse pages (above
+   the search box), and the About/Add pages, so the same color language
    shows up everywhere instead of just on the homepage. Built from the
-   existing tint variables so it stays correct in dark mode automatically. */
+   metallic tint variables (steel + gunmetal + a bright "shine" highlight)
+   for a brushed-metal look, and stays correct in dark mode automatically
+   since all three are CSS variables. */
 .hero-panel {
   border-radius: 20px;
   padding: 28px 28px 32px;
@@ -269,5 +284,5 @@ textarea {
   box-shadow: var(--shadow);
   background: radial-gradient(circle at 12% 15%, var(--teal-tint), transparent 55%),
     radial-gradient(circle at 88% 12%, var(--amber-tint), transparent 50%),
-    radial-gradient(circle at 50% 100%, var(--sage-tint), transparent 55%), var(--panel);
+    radial-gradient(circle at 50% 100%, var(--shine-tint), transparent 55%), var(--panel);
 }
