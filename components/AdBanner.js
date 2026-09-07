@@ -6,8 +6,13 @@
 // of this component (or route it through a real ad slot/sponsor rotation)
 // once a sponsor is signed.
 export default function AdBanner() {
+  // Fixed dark-navy-to-cobalt colors here (not the --teal/--teal-dark
+  // variables) on purpose: those variables now hold light pastel-blue
+  // values meant for text/accents against the site's dark theme, and this
+  // banner needs its own dark background regardless of theme so its light
+  // text stays readable (light-on-light here would fail contrast).
   return (
-    <div style={{ background: "linear-gradient(90deg, var(--teal-dark), var(--teal))" }}>
+    <div style={{ background: "linear-gradient(90deg, #16337f, #1e46c4)" }}>
       <div
         style={{
           maxWidth: 1180,
