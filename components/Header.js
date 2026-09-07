@@ -10,47 +10,51 @@ const LINKS = [
   { href: "/about", label: "About" },
 ];
 
+// Centered, sitting directly on the page's cube-pattern backdrop (no opaque
+// panel background — that was hiding the pattern under the header entirely)
+// per the approved dark-cobalt mockup. The mission-statement paragraph that
+// used to live here was dropped: it duplicated the homepage's hero-panel
+// copy word-for-word, and the About page carries the fuller version — this
+// header is now just the title, tagline, and site nav, matching the mockup.
 export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header
-      style={{
-        borderBottom: "1px solid var(--line)",
-        background: "var(--panel)",
-      }}
-    >
+    <header>
       <div
         className="shell"
         style={{
-          paddingTop: 32,
-          paddingBottom: 26,
+          paddingTop: 36,
+          paddingBottom: 28,
           display: "flex",
-          flexWrap: "wrap",
-          gap: 20,
-          alignItems: "flex-end",
-          justifyContent: "space-between",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 18,
+          textAlign: "center",
         }}
       >
         <div>
-          <h1 style={{ fontSize: 32, fontWeight: 600, marginBottom: 8 }}>
-            <Link href="/" style={{ color: "var(--ink)", textDecoration: "none" }}>
+          <h1 style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 8px" }}>
+            <Link
+              href="/"
+              style={{
+                color: "var(--ink)",
+                textDecoration: "none",
+                filter: "drop-shadow(0 6px 20px var(--glow))",
+              }}
+            >
               The Help Haven Network
             </Link>
           </h1>
           <p
             style={{
-              fontSize: 16,
-              fontWeight: 600,
+              fontSize: 15,
+              fontWeight: 500,
               color: "var(--teal-dark)",
-              margin: "0 0 8px",
+              margin: 0,
             }}
           >
             Community resource directory
-          </p>
-          <p style={{ margin: "0 0 10px", color: "var(--ink-soft)", maxWidth: "46ch", fontSize: 14 }}>
-            A directory of mental health, recovery, shelter, and support resources — for people who
-            need them, and the organizations that provide them. Starting in North Texas, growing nationwide.
           </p>
           <VisitStats />
         </div>
@@ -58,9 +62,12 @@ export default function Header() {
           style={{
             display: "flex",
             gap: 4,
-            background: "var(--teal-tint)",
+            background: "var(--panel-glass)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
             padding: 4,
             borderRadius: 10,
+            border: "1px solid var(--line)",
           }}
         >
           {LINKS.map((link) => {
