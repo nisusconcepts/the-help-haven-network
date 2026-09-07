@@ -21,53 +21,61 @@
     url(https://cdn.jsdelivr.net/fontsource/fonts/opendyslexic@5.3.0/latin-700-normal.woff) format("woff");
 }
 
-/* Color theme (2026-09-07): a metallic steel/gunmetal/silver palette,
-   replacing the previous teal/amber scheme, per Josh's request. Variable
-   *names* (--teal*, --amber*) are kept as-is on purpose — dozens of
-   components already reference them — only the values changed, so this
-   reskins the whole site without touching every file that uses an accent
-   color. --rust/--rust-tint (urgent) and --sage/--sage-tint (free/verified)
-   are left alone: those are functional status colors (red = urgent,
-   green = free/confirmed), not decorative branding, and changing them
-   would cost real usability for a purely visual gain. All new values were
-   checked against WCAG 2.1 AA (4.5:1 for text, 3:1 for borders/UI) before
-   being used as text/border colors anywhere in this file. */
+/* Color theme (2026-09-07, v2): a glossy metallic cobalt-blue palette,
+   replacing the flatter steel/gunmetal scheme from earlier the same day —
+   Josh asked for something more "2026, modern, futuristic" than steel gray.
+   Variable *names* (--teal*, --amber*) are kept as-is on purpose — dozens
+   of components already reference them — only the values changed, plus one
+   new variable (--glow, for the colored glow shadows used on hover/buttons
+   to sell the "glossy" look). The base neutrals (--paper/--panel/--ink/
+   --ink-soft/--line) also shifted from a green-gray cast to a cool
+   navy-blue cast so the whole site reads as one cohesive cobalt system, not
+   just the accent color changing. --rust/--rust-tint (urgent) and
+   --sage/--sage-tint (free/verified) are left alone again: those are
+   functional status colors (red = urgent, green = free/confirmed), not
+   decorative branding, and changing them would cost real usability for a
+   purely visual gain. All new values were re-checked against WCAG 2.1 AA
+   (4.5:1 for text, 3:1 for borders/UI) before being used as text/border
+   colors anywhere in this file — see the contrast notes in
+   lib/categories.js for the category-color numbers specifically. */
 :root {
-  --paper: #eef1ee;
+  --paper: #eef1f7;
   --panel: #ffffff;
-  --ink: #182422;
-  --ink-soft: #4b5b56;
-  --line: rgba(24, 36, 34, 0.13);
-  --teal: #4a5568;
-  --teal-dark: #333e47;
-  --teal-tint: #e1e4ea;
-  --amber: #2f3a42;
-  --amber-tint: #dde1e4;
+  --ink: #10182b;
+  --ink-soft: #4b586b;
+  --line: rgba(16, 24, 43, 0.13);
+  --teal: #1e46c4;
+  --teal-dark: #16337f;
+  --teal-tint: #dde6fb;
+  --amber: #0d1f57;
+  --amber-tint: #d7ddf2;
   --rust: #a8443a;
   --rust-tint: #f5e0dd;
   --sage: #3f7057;
   --sage-tint: #e1ede4;
-  --shine-tint: #f4f6f7;
-  --shadow: 0 1px 2px rgba(24, 36, 34, 0.06), 0 8px 24px -16px rgba(24, 36, 34, 0.25);
+  --shine-tint: #eef3ff;
+  --glow: rgba(30, 70, 196, 0.35);
+  --shadow: 0 1px 2px rgba(16, 24, 43, 0.08), 0 8px 24px -16px rgba(16, 24, 43, 0.28);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #0f1e1b;
-    --panel: #16302b;
-    --ink: #e9efec;
-    --ink-soft: #a7bcb5;
+    --paper: #0a1226;
+    --panel: #101d3a;
+    --ink: #eef1fb;
+    --ink-soft: #a9b8d6;
     --line: rgba(255, 255, 255, 0.13);
-    --teal: #9aa8b3;
-    --teal-dark: #c3ccd1;
-    --teal-tint: rgba(154, 168, 179, 0.15);
-    --amber: #7c8994;
-    --amber-tint: rgba(124, 137, 148, 0.16);
+    --teal: #8fb0ff;
+    --teal-dark: #b9cbff;
+    --teal-tint: rgba(143, 176, 255, 0.15);
+    --amber: #5f7ee0;
+    --amber-tint: rgba(95, 126, 224, 0.16);
     --rust: #dd8b80;
     --rust-tint: rgba(221, 139, 128, 0.16);
     --sage: #84c4a1;
     --sage-tint: rgba(132, 196, 161, 0.16);
-    --shine-tint: rgba(210, 218, 222, 0.14);
+    --shine-tint: rgba(180, 200, 255, 0.14);
+    --glow: rgba(143, 176, 255, 0.35);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -16px rgba(0, 0, 0, 0.5);
   }
 }
@@ -222,9 +230,14 @@ textarea {
   cursor: pointer;
   display: inline-block;
 }
+/* Glossy button: a cobalt-to-navy gradient with a thin bright top highlight
+   (the classic "glossy button" trick — a light inset line along the top
+   edge reads as a specular reflection) plus a soft cobalt glow shadow
+   instead of a flat dark one, so it feels lit rather than just shaded. */
 .btn-primary {
-  background: linear-gradient(180deg, #5a6a76, var(--amber));
+  background: linear-gradient(180deg, #3556c9 0%, var(--teal-dark) 55%, var(--amber) 100%);
   color: #f4f6f7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 20px -8px var(--glow);
 }
 .btn:disabled {
   opacity: 0.55;
@@ -262,22 +275,35 @@ textarea {
 }
 
 /* Homepage category tabs — a little lift on hover so the tiles feel
-   clickable, not flat. */
+   clickable, not flat, plus a diagonal glass-shine overlay (the ::after)
+   and a cobalt glow shadow on hover for the glossy/futuristic look. */
 .category-tab {
+  position: relative;
+  overflow: hidden;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.category-tab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 32%);
+  pointer-events: none;
+}
 .category-tab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px -8px rgba(24, 36, 34, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -12px var(--glow);
 }
 
 /* Shared intro panel — reused on the homepage, the browse pages (above
    the search box), and the About/Add pages, so the same color language
    shows up everywhere instead of just on the homepage. Built from the
-   metallic tint variables (steel + gunmetal + a bright "shine" highlight)
-   for a brushed-metal look, and stays correct in dark mode automatically
-   since all three are CSS variables. */
+   cobalt tint variables (cobalt + deep indigo + a bright "shine" highlight)
+   for a glossy, glass-like look, and stays correct in dark mode
+   automatically since all three are CSS variables. The ::before adds a
+   diagonal glass-sheen streak across the panel for extra gloss. */
 .hero-panel {
+  position: relative;
+  overflow: hidden;
   border-radius: 20px;
   padding: 28px 28px 32px;
   border: 1px solid var(--line);
@@ -285,4 +311,11 @@ textarea {
   background: radial-gradient(circle at 12% 15%, var(--teal-tint), transparent 55%),
     radial-gradient(circle at 88% 12%, var(--amber-tint), transparent 50%),
     radial-gradient(circle at 50% 100%, var(--shine-tint), transparent 55%), var(--panel);
+}
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 26%);
+  pointer-events: none;
 }
