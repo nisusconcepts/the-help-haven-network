@@ -12,7 +12,16 @@ export default function ResourceCard({ resource, onSelect }) {
     >
       <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
         <h3 style={{ fontSize: 16.5, fontWeight: 600, lineHeight: 1.3 }}>
-          <Link href={`/resource/${resource.id}`} style={{ color: "inherit", textDecoration: "none" }}>
+          {/* onFocus (not just the article's onClick) so keyboard users tabbing
+              through the list get the same "highlight this one on the map"
+              behavior mouse users get by clicking the card — the card's own
+              onClick isn't reachable by keyboard since a div/article has no
+              native key handling. */}
+          <Link
+            href={`/resource/${resource.id}`}
+            onFocus={() => onSelect && onSelect(resource.id)}
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
             {resource.name}
           </Link>
         </h3>
