@@ -47,6 +47,14 @@ export default function RootLayout({ children }) {
             Accessibility
           </Link>
           {" · "}
+          <Link href="/privacy" style={{ color: "var(--ink-soft)" }}>
+            Privacy
+          </Link>
+          {" · "}
+          <Link href="/terms" style={{ color: "var(--ink-soft)" }}>
+            Terms
+          </Link>
+          {" · "}
           <Link href="/admin" style={{ color: "var(--ink-soft)" }}>
             Admin
           </Link>
