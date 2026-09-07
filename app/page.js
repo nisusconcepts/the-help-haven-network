@@ -11,32 +11,35 @@ import CategoryIcon from "@/lib/categoryIcons";
 export default function HomePage() {
   return (
     <div className="hero-panel">
-      <h2 style={{ fontSize: 24, marginBottom: 8 }}>Find help by category</h2>
+      <h2 style={{ fontSize: 24, marginBottom: 8, color: "var(--ink)" }}>Helping North Texas — and growing</h2>
       <p style={{ color: "var(--ink-soft)", fontSize: 14.5, maxWidth: "56ch", margin: "0 0 24px" }}>
-        Pick a category below, or browse everything at once — search and ZIP filtering are on the next page.
+        Pick a category below to get started, or browse everything at once — search and ZIP filtering
+        are on the next page. For 24/7 crisis and social-service referrals anywhere in the country, you
+        can also dial 211.
       </p>
 
       <div
+        className="tile-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
           gap: 14,
         }}
       >
-        <CategoryTile href="/browse" slug={ALL_CATEGORY.slug} label={ALL_CATEGORY.label} color={ALL_CATEGORY.color} tint={ALL_CATEGORY.tint} />
+        <CategoryTile href="/browse" slug={ALL_CATEGORY.slug} label={ALL_CATEGORY.label} isAll />
         {CATEGORIES.map((c) => (
-          <CategoryTile key={c.slug} href={`/browse/${c.slug}`} slug={c.slug} label={c.label} color={c.color} tint={c.tint} />
+          <CategoryTile key={c.slug} href={`/browse/${c.slug}`} slug={c.slug} label={c.label} />
         ))}
       </div>
     </div>
   );
 }
 
-function CategoryTile({ href, slug, label, color, tint }) {
+function CategoryTile({ href, slug, label, isAll }) {
   return (
     <Link
       href={href}
-      className="category-tab"
+      className={isAll ? "tile all" : "tile"}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -48,14 +51,13 @@ function CategoryTile({ href, slug, label, color, tint }) {
         borderRadius: 14,
         textDecoration: "none",
         textAlign: "center",
-        color,
-        background: tint,
-        border: `1px solid ${color}`,
-        boxShadow: "var(--shadow)",
+        border: "1px solid rgba(150,180,255,0.4)",
       }}
     >
-      <CategoryIcon slug={slug} size={28} />
-      <span style={{ fontWeight: 600, fontSize: 13, lineHeight: 1.25 }}>{label}</span>
+      <CategoryIcon slug={slug} size={28} className="tile-icon" />
+      <span className="tile-label" style={{ fontSize: 13 }}>
+        {label}
+      </span>
     </Link>
   );
 }
