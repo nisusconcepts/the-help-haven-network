@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES, ALL_CATEGORY } from "@/lib/categories";
+import CategoryIcon from "@/lib/categoryIcons";
 
 // Server Component: the homepage is just the category nav — a grid of
 // same-size, icon-labeled tiles on a colorful shared background. Each
@@ -22,16 +23,16 @@ export default function HomePage() {
           gap: 14,
         }}
       >
-        <CategoryTile href="/browse" icon={ALL_CATEGORY.icon} label={ALL_CATEGORY.label} color={ALL_CATEGORY.color} tint={ALL_CATEGORY.tint} />
+        <CategoryTile href="/browse" slug={ALL_CATEGORY.slug} label={ALL_CATEGORY.label} color={ALL_CATEGORY.color} tint={ALL_CATEGORY.tint} />
         {CATEGORIES.map((c) => (
-          <CategoryTile key={c.slug} href={`/browse/${c.slug}`} icon={c.icon} label={c.label} color={c.color} tint={c.tint} />
+          <CategoryTile key={c.slug} href={`/browse/${c.slug}`} slug={c.slug} label={c.label} color={c.color} tint={c.tint} />
         ))}
       </div>
     </div>
   );
 }
 
-function CategoryTile({ href, icon, label, color, tint }) {
+function CategoryTile({ href, slug, label, color, tint }) {
   return (
     <Link
       href={href}
@@ -53,9 +54,7 @@ function CategoryTile({ href, icon, label, color, tint }) {
         boxShadow: "var(--shadow)",
       }}
     >
-      <span style={{ fontSize: 26, lineHeight: 1 }} aria-hidden="true">
-        {icon}
-      </span>
+      <CategoryIcon slug={slug} size={28} />
       <span style={{ fontWeight: 600, fontSize: 13, lineHeight: 1.25 }}>{label}</span>
     </Link>
   );
