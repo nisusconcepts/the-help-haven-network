@@ -1,10 +1,12 @@
-// Placeholder sponsor banner. Sits at the very top of every page, above
-// the header, so it reads as a real top-of-site banner slot rather than
-// competing with in-page content. No ad network is wired up — there's no
-// paying sponsor yet — so this is just a clearly-labeled placeholder that
-// shows where that space will live once there is one. Swap the contents
-// of this component (or route it through a real ad slot/sponsor rotation)
-// once a sponsor is signed.
+// Placeholder sponsor banner. Sits at the top of every page, above the
+// header, as a contained rounded pill inside the same shell width as the
+// rest of the site (not a full-bleed edge-to-edge bar) — matching the
+// approved dark-cobalt mockup, where the sponsor strip sits inside the
+// content column like a card, not spanning the browser width. No ad
+// network is wired up — there's no paying sponsor yet — so this is just a
+// clearly-labeled placeholder that shows where that space will live once
+// there is one. Swap the contents of this component (or route it through a
+// real ad slot/sponsor rotation) once a sponsor is signed.
 export default function AdBanner() {
   // Fixed dark-navy-to-cobalt colors here (not the --teal/--teal-dark
   // variables) on purpose: those variables now hold light pastel-blue
@@ -12,12 +14,13 @@ export default function AdBanner() {
   // banner needs its own dark background regardless of theme so its light
   // text stays readable (light-on-light here would fail contrast).
   return (
-    <div style={{ background: "linear-gradient(90deg, #16337f, #1e46c4)" }}>
+    <div className="shell" style={{ paddingTop: 20, paddingBottom: 0 }}>
       <div
         style={{
-          maxWidth: 1180,
-          margin: "0 auto",
-          padding: "10px 24px",
+          background: "linear-gradient(180deg, #33509e 0%, #16224f 100%)",
+          borderRadius: 10,
+          padding: "10px 18px",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.25), 0 6px 18px -8px rgba(20,50,180,0.6)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
